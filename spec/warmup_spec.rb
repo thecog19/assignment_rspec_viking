@@ -16,7 +16,7 @@ describe Warmup do
   describe "#triple_size" do
 
     let(:arr_double) do
-      double("Array", :size => 2)
+      double(:size => 2)
     end
 
     it "triples the size of an array" do
@@ -28,30 +28,22 @@ describe Warmup do
   describe "#calls_some_methods" do
 
     it "raises an error when the string is empty" do 
-
-      str_double = double("String", :empty? => true)
+      str_double = double(:empty? => true)
       expect do 
         warm.calls_some_methods(str_double)
       end.to raise_error("Hey, give me a string!")
-
     end 
 
     it "calls upcase on string" do 
-
-      #str_double = double("String", :empty? => false, :upcase! => "HELLO")
-
-      str_double = double("String" , empty?: false)
+      str_double = double(empty?: false)
       expect(str_double).to receive(:upcase!).and_return("foo")
       warm.calls_some_methods(str_double)
-
     end
 
     it "calls reverse on string" do 
-
-      str_double = double("String" , empty?: false, upcase!: "whatever", reverse!: "hi")
-      expect(str_double.upcase!).to receive(:reverse!).and_return("foo")
+      str_double = double(empty?: false, upcase!: "whatever", reverse!: "hi")
+      expect(str_double.upcase!).to receive(:reverse!)
       warm.calls_some_methods(str_double)
-
     end
 
     it "returns 'I am unrelated'" do
