@@ -38,8 +38,19 @@ describe Warmup do
 
     it "calls upcase on string" do 
 
-      str_double = double("String", :empty? => false, :upcase! => "HELLO")
-      expect(str_double).to receive("HELLO")
+      #str_double = double("String", :empty? => false, :upcase! => "HELLO")
+
+      str_double = double("String" , empty?: false)
+      expect(str_double).to receive(:upcase!).and_return("foo")
+      warm.calls_some_methods(str_double)
+
+    end
+
+    it "calls reverse on string" do 
+
+      str_double = double("String" , empty?: false, upcase!: "whatever", reverse!: "hi")
+      expect(str_double.upcase!).to receive(:reverse!).and_return("foo")
+      warm.calls_some_methods(str_double)
 
     end
 
