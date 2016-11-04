@@ -27,7 +27,21 @@ describe Warmup do
 
   describe "#calls_some_methods" do
 
-    it ""
+    it "raises an error when the string is empty" do 
+
+      str_double = double("String", :empty? => true)
+      expect do 
+        warm.calls_some_methods(str_double)
+      end.to raise_error("Hey, give me a string!")
+
+    end 
+
+    it "calls upcase on string" do 
+
+      str_double = double("String", :empty? => false, :upcase! => "HELLO")
+      expect(str_double).to receive("HELLO")
+
+    end
 
   end
 
