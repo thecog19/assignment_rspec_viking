@@ -65,19 +65,36 @@ describe Viking do
 
   	it "calls take_damage" do
       expect(sven).to receive(:take_damage)
+      sven.receive_attack(10)
     end
 
   end
 
-  # describe "#attack" do
+  describe "#attack" do
+    let(:eric) {Viking.new("eric", 100, 14)} 
 
-  # 	it "attacking another Viking causes the recipient's health to drop"
+    it "attacking another Viking causes the recipient's health to drop" do
+      sven.attack(eric)
+      expect(eric.instance_variable_get(:@health)).to be < 100 
+    end
 
-  # 	it "attacking another Viking calls that Viking's take_damage"
 
-  # 	it "attacking with no weapon runs damage_with_fists"
+  	it "attacking another Viking calls that Viking's take_damage" do
+      expect(eric).to receive(:take_damage)
+      sven.attack(eric)
+    end
 
-  # 	it "attacking with no weapon deals fist's multiplier times strength damage"
+   	it "attacking with no weapon runs damage_with_fists" do
+      expect(sven).to receive(:damage_with_fists).and_return(10)
+      sven.attack(eric)
+    end
+
+   	it "attacking with no weapon deals fist's multiplier times strength damage" 
+      fake_fist = instance_double("Fist", use: 2)
+      str = sven.instance_variable_get(:@strength)
+      expect do
+      sven.attack(eric)
+   
 
   # 	it "attacking with a weapon runs damage_with_weapon"
 
@@ -87,6 +104,6 @@ describe Viking do
 
   # 	it "killing a viking raises an error" 
 
-  # end
+  end
 
 end
