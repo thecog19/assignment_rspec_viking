@@ -54,6 +54,10 @@ describe Warmup do
 
     end
 
+    it "returns 'I am unrelated'" do
+      expect(warm.calls_some_methods("test")).to eq("I am unrelated")
+    end
+
   end
 
 end
