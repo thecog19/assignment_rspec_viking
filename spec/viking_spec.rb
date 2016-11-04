@@ -89,11 +89,11 @@ describe Viking do
       sven.attack(eric)
     end
 
-   	it "attacking with no weapon deals fist's multiplier times strength damage" 
-      fake_fist = instance_double("Fist", use: 2)
+   	it "attacking with no weapon deals fist's multiplier times strength damage" do
       str = sven.instance_variable_get(:@strength)
-      expect do
+      allow(sven.fists).to receive(:use).and_return(2) 
       sven.attack(eric)
+    end
    
 
   # 	it "attacking with a weapon runs damage_with_weapon"
