@@ -10,7 +10,7 @@ class Viking
     @health = health
     @strength = strength
     @fists = Fists.new
-    @weapon = weapon
+    @weapon = weapon 
   end
 
 
