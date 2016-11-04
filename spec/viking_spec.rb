@@ -89,34 +89,38 @@ describe Viking do
       sven.attack(eric)
     end
 
-   	it "attacking with no weapon deals fist's multiplier times strength damage" do
+   	it "attacking with no weapon deals fist multiplier x strength damage" do
       fake_fist = instance_double("Fist", use: 2)
       str = sven.instance_variable_get(:@strength) # sven's str is 10
+      health = eric.instance_variable_get(:@health)
+      sven.instance_variable_set( :@fists, fake_fist ) # ???
       sven.attack(eric)
-      expect(eric.instance_variable_get(:@health)).to eq(97.5)
-
-      expect(fake_fist).to receive(:use)
-
-
-      set no weapon
-
-      pass a value to fake_fist
-
-      sven = Viking.new("Sven", 100, 10, fake_fist)
-
-      fake_fist is multiplied by @strength =>
-
-      when it returns, verify the value has been multiplied
-
-      expect the returned value (fake_fist * strength)
+      expect(eric.instance_variable_get(:@health)).to eq(health-fake_fist.use*str)
     end
 
+  	it "attacking with a weapon runs damage_with_weapon" do
+      fake_weapon = instance_double("Weapon")
+      olag = Viking.new("Olag", 100, 10, fake_weapon)
+      expect(olag).to receive(:damage_with_weapon).and_return(10)
+      olag.attack(sven)
+    end
 
-  # 	it "attacking with a weapon runs damage_with_weapon"
+  	it "attacking with a weapon deals weapon multiplier x strength as damage" do
+      fake_weapon = instance_double("Weapon", use: 2)
+      str = sven.instance_variable_get(:@strength) # sven's str is 10
+      health = sven.instance_variable_get(:@health)
+      olag = Viking.new("Olag", 100, 10, fake_weapon)
+      olag.attack(sven)
+      expect(sven.instance_variable_get(:@health)).to eq(health-fake_weapon.use*str)
+    end
 
-  # 	it "attacking with a weapon deals weapon's multiplier times strength as damage"
-
-  # 	it "attacking with a bow without enough arrows uses fists instead"
+  	it "attacking with a bow without enough arrows uses fists instead" do
+      fake_bow = instance_double("Bow")
+      olag = Viking.new("Olag", 100, 10, fake_bow)
+      eric = Viking.new("Eric")
+      expect(olag).to receive(:damage_with_fists).and_return(1)
+      olag.attack(eric)
+    end
 
   # 	it "killing a viking raises an error"
 
