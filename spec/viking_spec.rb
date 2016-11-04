@@ -13,7 +13,7 @@ describe Viking do
 
     it "health can be set for Vikings" do
       sven = Viking.new("Sven", 150)
-      expect(sven.instance_variable_get(:@health)).to eq(150)      
+      expect(sven.instance_variable_get(:@health)).to eq(150)
     end
 
     it "health cannot be overwritten after initialization" do
@@ -28,10 +28,10 @@ describe Viking do
 
   end
 
-  describe "#pick_up_weapon" do 
+  describe "#pick_up_weapon" do
 
   	it "cannot pick up a non-weapon" do
-      expect do 
+      expect do
         sven.pick_up_weapon([])
       end.to raise_error("Can't pick up that thing")
     end
@@ -45,20 +45,20 @@ describe Viking do
   end
 
 
-  describe "#drop_weapon" do 
+  describe "#drop_weapon" do
 
   	it "dropping a weapon leaves a Viking weaponless" do
       dumb_weapon = instance_double("Weapon")
       sven = Viking.new("Sven", 150, 10, dumb_weapon)
       sven.drop_weapon
-      expect(sven.instance_variable_get(:@weapon)).to be_nil            
+      expect(sven.instance_variable_get(:@weapon)).to be_nil
     end
 
   end
 
   describe "#receive_attack" do
 
-  	it "health is reduced by a specific amount" do 
+  	it "health is reduced by a specific amount" do
       sven.receive_attack(10)
       expect(sven.instance_variable_get(:@health)).to eq(140)
     end
@@ -71,11 +71,11 @@ describe Viking do
   end
 
   describe "#attack" do
-    let(:eric) {Viking.new("eric", 100, 14)} 
+    let(:eric) {Viking.new("eric", 100, 14)}
 
     it "attacking another Viking causes the recipient's health to drop" do
       sven.attack(eric)
-      expect(eric.instance_variable_get(:@health)).to be < 100 
+      expect(eric.instance_variable_get(:@health)).to be < 100
     end
 
 
@@ -89,12 +89,28 @@ describe Viking do
       sven.attack(eric)
     end
 
-   	it "attacking with no weapon deals fist's multiplier times strength damage" 
+   	it "attacking with no weapon deals fist's multiplier times strength damage" do
       fake_fist = instance_double("Fist", use: 2)
-      str = sven.instance_variable_get(:@strength)
-      expect do
+      str = sven.instance_variable_get(:@strength) # sven's str is 10
       sven.attack(eric)
-   
+      expect(eric.instance_variable_get(:@health)).to eq(97.5)
+
+      expect(fake_fist).to receive(:use)
+
+
+      set no weapon
+
+      pass a value to fake_fist
+
+      sven = Viking.new("Sven", 100, 10, fake_fist)
+
+      fake_fist is multiplied by @strength =>
+
+      when it returns, verify the value has been multiplied
+
+      expect the returned value (fake_fist * strength)
+    end
+
 
   # 	it "attacking with a weapon runs damage_with_weapon"
 
@@ -102,7 +118,7 @@ describe Viking do
 
   # 	it "attacking with a bow without enough arrows uses fists instead"
 
-  # 	it "killing a viking raises an error" 
+  # 	it "killing a viking raises an error"
 
   end
 
